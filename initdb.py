@@ -13,11 +13,17 @@ with open('schema.sql') as f:
 
 #query multichain for the first addresses to be registered as pabrikbox address
 headers = {'content-type' : 'application/json'}
-data = {"method":"listaddresses","params":["*",true,1,0],"chain_name":"chain1"}
+data = {"method":"getnewaddress","params":[],"chain_name":"chain1"}
 url='http://'+conf['chain']['rpcuser']+conf['chain']['rpcpassword']+'@'+conf['chain']['rpcip']
 request_data=requests.post(url, headers=headers, json=data)
-pabrikbox_data=request_data.json()
-pabrikbox_address=pabrikbox_data['result'](0)['address']
+pabrikbox_address=request_data.text
+#pabrikbox_address=pabrikbox_data['result'](0)['address']
+
+#set permission ke address baru
+data={"method":"grant","params":[pabrikbox_address,"connect,send,receive,create"],"chain_name":str(conf['chain']['chainname'])}
+request_data=requests.post(url,headers=headers,json=data)
 
 cur = connection.cursor
 cur.execute("INSERT INTO user (username,walletaddress) VALUES (?,?)",('pabrikbox',pabrikbox_address))
+connection.commit()
+connection.close()

@@ -4,10 +4,14 @@ import requests
 
 conf=ConfigParser()
 conf.read('conf.ini')
-rpcip=conf['chain']['rpcip']
-rpcuser=conf['chain']['rpcuser']
-rpcpassword=conf['chain']['rpcpassword']
-rpcLink='http://'+rpcuser+rpcpassword+'@'+rpcip
+rpcip=conf.get('chain','rpcip')
+rpcuser=conf.get('chain','rpcuser')
+rpcpassword=conf.get('chain','rpcpassword')
+rpclink='http://'+rpcuser+rpcpassword+'@'+rpcip
+try:
+    chainname=conf['chain']['chainname']
+except:
+    chainname=''
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -20,12 +24,24 @@ def index():
 def createNewBox():
     #check for request method
     if request.method == 'POST':
-        status = "Success creating box"
-        
+        box_id=str(request.form['box_id'])
         #Send to multichain
-
-        #return success message
-        return render_template('create_new_box.html', status=status)
+        headers={'content-type' : 'application/json'}
+        data={"method":"issue","params":["1KnR1xn3jgLs7JRpn99TdBWgstcFzKnD4UKX9q",{"name":box_id,"open":True},1,1,0,{"asset_id":"smartbox"}],"chain_name":chainname}
+        try:
+            request_data=requests.post(rpclink,headers=headers,json=data)
+            if request_data.ok:
+                status = "Success creating box with txid "+request_data.text
+                status_var=1
+            else:
+                status= "Error connecting to multichain"
+                status_var=0
+        except requests.exceptions.RequestException as e:
+            status=str(e)
+            status_var=0
+        
+        #return status message
+        return render_template('create_new_box.html', status=status,status_var=status_var)
     return render_template('create_new_box.html')
 
 @app.route('/send_box')
