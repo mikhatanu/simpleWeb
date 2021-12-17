@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Create New Block{% endblock %}
+{% block content %}
+<div class="m-2 p-2"><h2>Create New Box</h2></div>
+<div class="m-2">
+{% if status %}<div class=" alert alert-success" role="alert" style="display: inline-block" >{{status}}</div>{% endif %}
+    <div class="p-2"><form action="{{ url_for('createNewBox') }}" method="post">
+        <label>Box id:</label>
+        <input class="form-control w-50" type="text" name="box_id"><br>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form></div>
+    
+</div>
+<footer>
+    <div class="btn btn-link"><a href="{{ url_for('index') }}">back</a></div>
+</footer>
+{% endblock %}

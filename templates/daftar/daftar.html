@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Daftar{% endblock %}
+{% block content %}
+<div class="m-2 p-2"><h2>Daftar</h2></div>
+<div class="m-2 p-2">
+<a class="btn btn-primary" href="{{ url_for('daftarDriver') }}">Daftar Driver</a>
+<a class="btn btn-primary" href="{{ url_for('daftarPelanggan') }}">Daftar Pelanggan</a>
+</div>
+<footer>
+    <div class="btn btn-link"><a href="{{ url_for('index') }}">back</a></div>
+</footer>
+{% endblock %}
