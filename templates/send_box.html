@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Send box{% endblock %}
+{% block content %}
+<div class="m-2 p-2"><h2>Send Box to driver</h2></div>
+<div class="m-2">
+    {% if status_var==1 %}<div class=" alert alert-success" role="alert" style="display: inline-block" >{% elif status_var==0 %} <div class=" alert alert-danger" role="alert" style="display: inline-block" >{% endif %} {{status}}</div>
+<div class="p-2">
+    <form action="{{ url_for('sendBox') }}" method="post">
+        <label>Driver Multichain Address:</label>
+        <input class="form-control w-50" type="text" name="driver_address" placeholder="1..."><br>
+        <!-- <label>To:</label>
+        <input class="form-control w-50" type="text" name="to_address" placeholder="1..."><br>
+        -->
+        <label>Box id:</label>
+        <input class="form-control w-50" type="text" name="box_id"><br>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+</div>
+<footer>
+    <div class="btn btn-link"><a href="{{ url_for('index') }}">back</a></div>
+</footer>
+{% endblock %}

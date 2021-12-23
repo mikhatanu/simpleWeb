@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Daftar Pelanggan{% endblock %}
+{% block content %}
+<div class="m-2 p-2"><h2>Daftar Pelanggan</h2></div>
+<div class="m-2">
+    {% if status_var==1 %}<div class=" alert alert-success" role="alert" style="display: inline-block" >{% elif status_var==0 %} <div class=" alert alert-danger" role="alert" style="display: inline-block" >{% endif %} {{status}}</div>
+        <div class="p-2">
+            <form action="{{ url_for('daftarPelanggan') }}" method="post">
+                <label>Nama pelanggan:</label>
+                <input class="form-control w-50" type="text" name="username"><br>
+                <button class="btn btn-primary" type="submit">Daftar</button>
+            </form>
+        </div>
+        
+</div>
+
+<footer>
+    <div class="btn btn-link"><a href="{{ url_for('daftar') }}">back</a></div><br>
+    <div class="btn btn-link"><a href="{{ url_for('index') }}">Home</a></div>
+</footer>
+{% endblock %}
